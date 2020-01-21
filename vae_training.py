@@ -29,7 +29,7 @@ start_time = datetime.utcnow().isoformat()    #
 
 
 batchsize = 16 # training batch
-imageshape = [158,198] # this is calculated by bounding box of the whold dataset and network setting
+imageshape = [240,240] # this is calculated by bounding box of the whold dataset and network setting
 dim_z = 1 # latent variable z's channel
 dim_x = imageshape[0]*imageshape[1]  # dimension of image in vectors
 clipstd = [0.0,1.0] # bound of std
@@ -39,20 +39,29 @@ train_rate = 5e-5
 
 # Load Data
 
-dataset = 'CamCANT2' 
-datapath = path_make('','data','')
-MRtrain = data_load(process = 'Train', dataset = dataset, datapath = datapath)
-MRtest = data_load(process = 'Test', dataset = dataset, datapath = datapath)
-test_image = MRtest[[73,  107,  185,  199,  382,  419,  443,  472,  509,  540,  554,    # some random images chosen for reconstruction during training
-        713,  746,  757,  801,  861,  893,  943, 1091, 1104, 1137, 1164,                # indeces are random generated 
-       1208, 1318, 1333, 1386, 1406, 1445, 1557, 1630, 1659, 1695, 1753,                # the cropping location is found by bounding box before hand
-       1791, 1842, 1916, 2033, 2053, 2093, 2193, 2207, 2214, 2232, 2380,
-       2387, 2413, 2441, 2521, 2539, 2776, 2809, 3025, 3050, 3055, 3121,
-       3136, 3173, 3226, 3257, 3274]][:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
+#dataset = 'CamCANT2' 
+dataset_train = 'BraTS2018train'
+dataset_test = 'BraTS2018test'
+datapath = path_make('/scratch_net/biwidl201/himeva/MasterThesis-Meva/','data','')
+print(datapath)
+
+MRtrain = data_load(process = 'Train', dataset = dataset_train, datapath = datapath)
+MRtest = data_load(process = 'Test', dataset = dataset_test, datapath = datapath)
+#print(MRtrain[0].shape)
+#print(MRtest[0].shape)
+test_image = MRtest[0]
+#[73,  107,  185,  199,  382,  419,  443,  472,  509,  540,  554,    # some random images chosen for reconstruction during training
+        
+#713,  746,  757,  801,  861,  893,  943, 1091, 1104, 1137, 1164,                # indeces are random generated 
+ #      1208, 1318, 1333, 1386, 1406, 1445, 1557, 1630, 1659, 1695, 1753]                # the cropping location is found by bounding box before hand
+     #  1791, 1842, 1916, 2033, 2053, 2093, 2193, 2207, 2214, 2232, 2380,
+     #  2387, 2413, 2441, 2521, 2539, 2776, 2809, 3025, 3050, 3055, 3121,
+     #  3136, 3173, 3226, 3257, 3274]
+#[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
 
 # Set the Savepath
 
-savepath = path_make(model,dataset, model + num2str(sequence_number))
+savepath = path_make(model,'BraTS2018', model + num2str(sequence_number))
 
 if not os.path.exists(savepath):    
     os.makedirs(savepath)    
@@ -145,10 +154,13 @@ weight = z_mean.get_shape().as_list()[1] * z_mean.get_shape().as_list()[2] # thi
 
 for step in range(start_step, start_step + training_step):
     if step % 20000 == 0 or step == start_step:
-		print('Starting @step %s' % step)
+        print('Starting @step %s' % step)
         
-    batch = random_data(MRtrain, batchsize = batchsize)[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
+    batch = random_data(MRtrain, batchsize = batchsize)
+#[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
+    print(batch.shape)
     batch = np.expand_dims(batch, axis = -1)
+    print('shape after expand dims',batch.shape)
     
     t_los, z_los, l2_los, _ = sess.run([t_loss, z_loss, l2_loss, optimization], feed_dict={x: batch.reshape(batchsize,-1)})       
     
@@ -168,7 +180,8 @@ for step in range(start_step, start_step + training_step):
 
     if ((step % 400 == 0) and (step <8000)) or (step % 1000 == 0) or step == start_step + training_step - 1:  # test, using random batch in test data
         
-            batch_test = random_data(MRtest, batchsize = batchsize)[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
+            batch_test = random_data(MRtest, batchsize = batchsize)
+#[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
             batch_test = np.expand_dims(batch_test, axis = -1)
 
             summary, t_t_los, t_z_los, t_l2_los = sess.run([merged, t_loss, z_loss, l2_loss], feed_dict={x: batch_test.reshape(batchsize,-1)})

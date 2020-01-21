@@ -1,0 +1,70 @@
+/scratch_net/biwidl201/himeva/MasterThesis-Meva/data/
+Traceback (most recent call last):
+  File "vae_training.py", line 64, in <module>
+    savepath = path_make(model,dataset, model + num2str(sequence_number))
+NameError: name 'dataset' is not defined
+/scratch_net/biwidl201/himeva/MasterThesis-Meva/data/
+[None, 119, 119, 64] [None, 117, 117, 64] [None, 115, 115, 64] [None, 57, 57, 64] [None, 55, 55, 64] [None, 53, 53, 64] [None, 53, 53, 1]
+[None, 53, 53, 64] [None, 55, 55, 64] [None, 57, 57, 64] [None, 116, 116, 64] [None, 118, 118, 64] [None, 120, 120, 64] [None, 242, 242, 1]
+Traceback (most recent call last):
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1628, in _create_c_op
+    c_op = c_api.TF_FinishOperation(op_desc)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "vae_training.py", line 108, in <module>
+    t_loss, z_loss, l2_loss = loss(z_mean, z_std, xz_mean, xz_logvarinv, x_reshape)
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 113, in loss
+    l2_loss1, l2_loss2 = log_likelihood_inv(input, recon_mean, recon_logvarinv, axis = [1,2,3])
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 26, in log_likelihood_inv
+    return -0.5 *tf.reduce_sum(tf.log(2 * np.pi)  - logvarinv , axis), -0.5 *tf.reduce_sum(tf.square(x - mu) * tf.exp(logvarinv), axis)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 866, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 8318, in sub
+    "Sub", x=x, y=y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py", line 488, in new_func
+    return func(*args, **kwargs)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3274, in create_op
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1792, in __init__
+    control_input_ops)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1631, in _create_c_op
+    raise ValueError(str(e))
+ValueError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+/scratch_net/biwidl201/himeva/MasterThesis-Meva/data/
+[None, 119, 119, 64] [None, 117, 117, 64] [None, 115, 115, 64] [None, 57, 57, 64] [None, 55, 55, 64] [None, 53, 53, 64] [None, 53, 53, 1]
+[None, 53, 53, 64] [None, 55, 55, 64] [None, 57, 57, 64] [None, 116, 116, 64] [None, 118, 118, 64] [None, 120, 120, 64] [None, 242, 242, 1]
+(?, 53, 53, 1) (?, 53, 53, 1) (?, 242, 242, 1) (?, 242, 242, 1) (?, 240, 240, 1)
+Traceback (most recent call last):
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1628, in _create_c_op
+    c_op = c_api.TF_FinishOperation(op_desc)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "vae_training.py", line 108, in <module>
+    t_loss, z_loss, l2_loss = loss(z_mean, z_std, xz_mean, xz_logvarinv, x_reshape)
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 113, in loss
+    l2_loss1, l2_loss2 = log_likelihood_inv(input, recon_mean, recon_logvarinv, axis = [1,2,3])
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 26, in log_likelihood_inv
+    return -0.5 *tf.reduce_sum(tf.log(2 * np.pi)  - logvarinv , axis), -0.5 *tf.reduce_sum(tf.square(x - mu) * tf.exp(logvarinv), axis)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 866, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 8318, in sub
+    "Sub", x=x, y=y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py", line 488, in new_func
+    return func(*args, **kwargs)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3274, in create_op
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1792, in __init__
+    control_input_ops)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1631, in _create_c_op
+    raise ValueError(str(e))
+ValueError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].

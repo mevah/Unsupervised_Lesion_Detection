@@ -45,7 +45,7 @@ def q_zx(input_x, dim_z,kernelx, kernely, output_channel):
     upsilon_z = tf.random_normal(tf.shape(z_mean), 0, 1,dtype=tf.float32) 
     z_sampled = z_mean + (tf.exp(0.5*z_logvar) * upsilon_z) #here now as input of decoder
     tf.summary.histogram('z_sampled', z_sampled)
-    print conv_1.get_shape().as_list(), conv_2.get_shape().as_list(), conv_3.get_shape().as_list(), conv_4.get_shape().as_list(), conv_5.get_shape().as_list(), conv_6.get_shape().as_list(), z_sampled.get_shape().as_list()
+    print(conv_1.get_shape().as_list(), conv_2.get_shape().as_list(), conv_3.get_shape().as_list(), conv_4.get_shape().as_list(), conv_5.get_shape().as_list(), conv_6.get_shape().as_list(), z_sampled.get_shape().as_list())
     return z_sampled, z_mean, z_logvar    
 
 # the decoder  p(x|z)
@@ -95,7 +95,7 @@ def p_xz(input_z, kernelx, kernely, output_channel, clipstd):
     upperbound = tf.cast(tf.fill(tf.shape(out_y_logvarinv_no_clip), -2*np.log(clipstd[0]+1e-8)), dtype = tf.float32)
     lowerbound = tf.cast( tf.fill(tf.shape(out_y_logvarinv_no_clip),-2*np.log(clipstd[-1])), dtype = tf.float32)
     out_y_logvarinv = tf.clip_by_value(out_y_logvarinv_no_clip, lowerbound , upperbound, name = 'cliped_y_logvarinv')  
-    print conv_1.get_shape().as_list(), conv_2.get_shape().as_list(), conv_3.get_shape().as_list(), conv_4.get_shape().as_list(), conv_5.get_shape().as_list(), conv_6.get_shape().as_list(), out_y_mean.get_shape().as_list()
+    print(conv_1.get_shape().as_list(), conv_2.get_shape().as_list(), conv_3.get_shape().as_list(), conv_4.get_shape().as_list(), conv_5.get_shape().as_list(), conv_6.get_shape().as_list(), out_y_mean.get_shape().as_list())
     
     tf.summary.histogram('p_xz/output_y_mean', out_y_mean)
     tf.summary.histogram('p_xz/output_y_logstd', out_y_logvarinv)
