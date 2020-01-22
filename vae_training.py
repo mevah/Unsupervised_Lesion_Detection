@@ -18,7 +18,7 @@ from utils import num2str, path_make, data_load, recon , random_data
 from datetime import datetime
 
 # Assign GPU no
-os.environ["CUDA_VISIBLE_DEVICES"]=os.environ['SGE_GPU'] #<GPU_NO>
+#os.environ["CUDA_VISIBLE_DEVICES"]=os.environ['SGE_GPU'] #<GPU_NO>
 
 # Parameter Settings
 
@@ -29,7 +29,7 @@ start_time = datetime.utcnow().isoformat()    #
 
 
 batchsize = 16 # training batch
-imageshape = [240,240] # this is calculated by bounding box of the whold dataset and network setting
+imageshape = [240,240] # this is calculated by bounding box of the whole dataset and network setting
 dim_z = 1 # latent variable z's channel
 dim_x = imageshape[0]*imageshape[1]  # dimension of image in vectors
 clipstd = [0.0,1.0] # bound of std
@@ -49,15 +49,12 @@ MRtrain = data_load(process = 'Train', dataset = dataset_train, datapath = datap
 MRtest = data_load(process = 'Test', dataset = dataset_test, datapath = datapath)
 #print(MRtrain[0].shape)
 #print(MRtest[0].shape)
-test_image = MRtest[0]
-#[73,  107,  185,  199,  382,  419,  443,  472,  509,  540,  554,    # some random images chosen for reconstruction during training
-        
-#713,  746,  757,  801,  861,  893,  943, 1091, 1104, 1137, 1164,                # indeces are random generated 
- #      1208, 1318, 1333, 1386, 1406, 1445, 1557, 1630, 1659, 1695, 1753]                # the cropping location is found by bounding box before hand
-     #  1791, 1842, 1916, 2033, 2053, 2093, 2193, 2207, 2214, 2232, 2380,
-     #  2387, 2413, 2441, 2521, 2539, 2776, 2809, 3025, 3050, 3055, 3121,
-     #  3136, 3173, 3226, 3257, 3274]
-#[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
+test_image = MRtest[[73,  107,  185,  199,  382,  419,  443,  472,  509,  540,  554,    # some random images chosen for reconstruction during training
+        713,  746,  757,  801,  861,  893,  943, 1091, 1104, 1137, 1164,                # indeces are random generated 
+      1208, 1318, 1333, 1386, 1406, 1445, 1557, 1630, 1659, 1695, 1753,             # the cropping location is found by bounding box before hand
+      1791, 1842, 1916, 2033, 2053, 2093, 2193, 2207, 2214, 2232, 2380,
+       2387, 2413, 2441, 2521, 2539, 2776, 2809, 3025, 3050, 3055, 3121,
+       3136, 3173, 3226, 3257, 3274]]
 
 # Set the Savepath
 
@@ -84,7 +81,7 @@ infodf.to_csv(savepath + 'Parameter_settings.csv', index=False)
 
 tf.reset_default_graph()
 x, x_reshape = input_set(dim_x, imageshape[0], imageshape[1])
-
+print(x_reshape.shape)
 # endcoder parameter
 
 qzx_kernels = np.tile([3,3,3,3,3,3,1], [2,1]) # 
@@ -97,7 +94,7 @@ z_sampled, z_mean, z_std = q_zx(x_reshape,dim_z,qzx_kernels[0],qzx_kernels[1],qz
 # decoder parameter
 
 pxz_kernels = np.tile([1,3,3,3,3,3,3], [2,1]) 
-pxz_channels = [64, 64, 64, 64, 64, 64, 1]
+pxz_channels = [64, 64, 64, 64, 64, 64, 1]  
 
 # decoding
  
@@ -158,11 +155,11 @@ for step in range(start_step, start_step + training_step):
         
     batch = random_data(MRtrain, batchsize = batchsize)
 #[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
-    print(batch.shape)
-    batch = np.expand_dims(batch, axis = -1)
-    print('shape after expand dims',batch.shape)
+    print('batch shape before going in the network:', batch.shape)
+ #   batch = np.expand_dims(batch, axis = -1)
+ #   print('shape after expand dims',batch.shape)
     
-    t_los, z_los, l2_los, _ = sess.run([t_loss, z_loss, l2_loss, optimization], feed_dict={x: batch.reshape(batchsize,-1)})       
+    t_los, z_los, l2_los, _ = sess.run([t_loss, z_loss, l2_loss, optimization], feed_dict={x: batch})       
     
     if step == 0 or os.path.isdir(savepath+'model') == 0:
         
@@ -182,16 +179,16 @@ for step in range(start_step, start_step + training_step):
         
             batch_test = random_data(MRtest, batchsize = batchsize)
 #[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
-            batch_test = np.expand_dims(batch_test, axis = -1)
+         #   batch_test = np.expand_dims(batch_test, axis = -1)
 
-            summary, t_t_los, t_z_los, t_l2_los = sess.run([merged, t_loss, z_loss, l2_loss], feed_dict={x: batch_test.reshape(batchsize,-1)})
+            summary, t_t_los, t_z_los, t_l2_los = sess.run([merged, t_loss, z_loss, l2_loss], feed_dict={x: batch_test})
             test_writer.add_summary(summary, step)
             print('weighted test total loss, z loss, l2 loss @ step %s: %s || %s || %s' % (step, t_t_los/weight, t_z_los/weight, t_l2_los/weight))
 
     if step % 5000 == 0 or step == start_step + training_step - 1:  # Record execution stats
             run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
             run_metadata = tf.RunMetadata()
-            summary = sess.run(merged, feed_dict={x: batch_test.reshape(batchsize,-1)}, options=run_options, run_metadata=run_metadata)
+            summary = sess.run(merged, feed_dict={x: batch_test}, options=run_options, run_metadata=run_metadata)
             train_writer.add_run_metadata(run_metadata, 'step%03d' % step)
             train_writer.add_summary(summary, step)
             print('Adding run metadata @step %s'% step)  
@@ -200,7 +197,7 @@ for step in range(start_step, start_step + training_step):
         reconpath = os.path.join(savepath,'reconstructions','')
         if not os.path.exists(reconpath):    
             os.makedirs(reconpath)  
-        recon(xz_mean, -0.5*xz_logvarinv, sess, x, test_image[:batchsize].reshape(batchsize,-1), reconpath, step)        
+        recon(xz_mean, -0.5*xz_logvarinv, sess, x, test_image[:batchsize], reconpath, step)        
         
 print('Finished optimisation @step %s' % step)    
 #train_writer.close()

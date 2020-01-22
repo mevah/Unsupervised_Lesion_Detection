@@ -50,41 +50,44 @@ def q_zx(input_x, dim_z,kernelx, kernely, output_channel):
 
 # the decoder  p(x|z)
     
-def p_xz(input_z, kernelx, kernely, output_channel, clipstd):  
-    pad = tf.constant([[0,0],[2, 2,], [2, 2],[0,0]])
-    
+def p_xz(input_z, kernelx, kernely, output_channel, clipstd): 
+ 
+    pad = tf.constant([[0,0],[2, 2], [2,2],[0,0]])
+    pad2 = tf.constant([[0,0],[1, 1], [1,1],[0,0]])
     conv_1 = conv_layer(input_z, kernelx[0], kernely[0], output_channel[0], 'p_xz/1x1convlayer')
     
     outputshape1 = [conv_1.get_shape().as_list()[0], conv_1.get_shape().as_list()[1] -1 + kernelx[1],
                     conv_1.get_shape().as_list()[2] -1  + kernely[1],  output_channel[1] ]
-    
+    print('outputshape1:', outputshape1)
     conv_2 = upconv_layer(conv_1, kernelx[1], kernely[1], outputshape1, 'p_xz/3x3upconvlayer1', stride = 1)
     
     outputshape2 = [conv_2.get_shape().as_list()[0], 1 * (conv_2.get_shape().as_list()[1] -1 ) + kernelx[2],
                     1 * (conv_2.get_shape().as_list()[2] -1 ) + kernely[2],  output_channel[2] ]
-    
+    print('outputshape2:', outputshape2)
     conv_3 = upconv_layer(conv_2, kernelx[2], kernely[2], outputshape2, 'p_xz/3x3upconvlayer2', stride = 1) 
         
-    outputshape3 = [2 * conv_3.get_shape().as_list()[1], 2*conv_3.get_shape().as_list()[2]]
-    
+    outputshape3 = [2 * conv_3.get_shape().as_list()[1]+1, 2*conv_3.get_shape().as_list()[2]+1]
+    print('outputshape3:', outputshape3)
     upconv_3 = tf.image.resize_images(conv_3, outputshape3 ,method = tf.image.ResizeMethod.NEAREST_NEIGHBOR)
     
-    padupconv_3 = tf.pad(upconv_3, pad , 'CONSTANT')
-    
-    conv_4 = conv_layer(padupconv_3, kernelx[3], kernely[3], output_channel[3], 'p_xz/3x3upconvlayer3', stride = 1, padding = 'VALID')     
+    padupconv_3 = tf.pad(upconv_3, pad2, 'CONSTANT')
+     
+    conv_4 = conv_layer(padupconv_3, kernelx[3], kernely[3], output_channel[3], 'p_xz/3x3upconvlayer3',padding = 'VALID')     
     
     outputshape4 = [conv_4.get_shape().as_list()[0], 1 * (conv_4.get_shape().as_list()[1] -1 ) + kernelx[4],
-                    1 * (conv_4.get_shape().as_list()[2] -1 ) + kernely[4], output_channel[4]]
+                    1 * (conv_4.get_shape().as_list()[2] -1) + kernely[4], output_channel[4]]    
+    print('outputshape4:', outputshape4)
+
     conv_5 = upconv_layer(conv_4, kernelx[4], kernely[4], outputshape4, 'p_xz/3x3upconvlayer4', stride = 1) 
     
     outputshape5 = [conv_5.get_shape().as_list()[0], 1 * (conv_5.get_shape().as_list()[1] -1 ) + kernelx[5],
                     1 * (conv_5.get_shape().as_list()[2] -1 ) + kernely[5], output_channel[5] ]
-    
+    print('outputshape5:', outputshape5)
     conv_6 = upconv_layer(conv_5, kernelx[5], kernely[5], outputshape5, 'p_xz/3x3upconvlayer5', stride = 1)    
 
     
     outputshape6 = [2 * conv_6.get_shape().as_list()[1], 2*conv_6.get_shape().as_list()[2]]
-    
+    print('outputshape6:', outputshape6)   
     upconv_6 = tf.image.resize_images(conv_6, outputshape6 ,method = tf.image.ResizeMethod.NEAREST_NEIGHBOR)
     
     padupconv_6 = tf.pad(upconv_6, pad , 'CONSTANT') 
