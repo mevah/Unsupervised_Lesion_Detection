@@ -68,3 +68,82 @@ Traceback (most recent call last):
   File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1631, in _create_c_op
     raise ValueError(str(e))
 ValueError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+/scratch_net/biwidl201/himeva/MasterThesis-Meva/data/
+(?, 240, 240, 1)
+[None, 119, 119, 64] [None, 117, 117, 64] [None, 115, 115, 64] [None, 57, 57, 64] [None, 55, 55, 64] [None, 53, 53, 64] [None, 53, 53, 1]
+[None, 53, 53, 64] [None, 55, 55, 64] [None, 57, 57, 64] [None, 116, 116, 64] [None, 118, 118, 64] [None, 120, 120, 64] [None, 242, 242, 1]
+Traceback (most recent call last):
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1628, in _create_c_op
+    c_op = c_api.TF_FinishOperation(op_desc)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "vae_training.py", line 108, in <module>
+    t_loss, z_loss, l2_loss = loss(z_mean, z_std, xz_mean, xz_logvarinv, x_reshape)
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 113, in loss
+    l2_loss1, l2_loss2 = log_likelihood_inv(input, recon_mean, recon_logvarinv, axis = [1,2,3])
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/vae_graph.py", line 26, in log_likelihood_inv
+    return -0.5 *tf.reduce_sum(tf.log(2 * np.pi)  - logvarinv , axis), -0.5 *tf.reduce_sum(tf.square(x - mu) * tf.exp(logvarinv), axis)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 866, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 8318, in sub
+    "Sub", x=x, y=y, name=name)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py", line 488, in new_func
+    return func(*args, **kwargs)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3274, in create_op
+    op_def=op_def)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1792, in __init__
+    control_input_ops)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1631, in _create_c_op
+    raise ValueError(str(e))
+ValueError: Dimensions must be equal, but are 240 and 242 for 'loss/sub_3' (op: 'Sub') with input shapes: [?,240,240,1], [?,242,242,1].
+2020-01-21 15:59:20.423152: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-01-21 15:59:20.636509: E tensorflow/stream_executor/cuda/cuda_driver.cc:300] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2020-01-21 15:59:20.636573: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: biwirender17
+2020-01-21 15:59:20.636582: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: biwirender17
+2020-01-21 15:59:20.636649: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 418.74.0
+2020-01-21 15:59:20.636682: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 418.74.0
+2020-01-21 15:59:20.636689: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 418.74.0
+/scratch_net/biwidl201/himeva/MasterThesis-Meva/data/
+(?, 158, 198, 1)
+[None, 78, 98, 64] [None, 76, 96, 64] [None, 74, 94, 64] [None, 36, 46, 64] [None, 34, 44, 64] [None, 32, 42, 64] [None, 32, 42, 1]
+[None, 32, 42, 64] [None, 34, 44, 64] [None, 36, 46, 64] [None, 74, 94, 64] [None, 76, 96, 64] [None, 78, 98, 64] [None, 158, 198, 1]
+Starting @step 0
+Traceback (most recent call last):
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 1695, in shape
+    result = a.shape
+AttributeError: 'tuple' object has no attribute 'shape'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "vae_training.py", line 159, in <module>
+    batch = random_data(MRtrain, batchsize = batchsize)
+  File "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection/utils.py", line 26, in random_data
+    slice_number = random.sample(range(np.shape(data)[0]), batchsize)      
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 1697, in shape
+    result = asarray(a).shape
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/numpy/core/numeric.py", line 501, in asarray
+    return array(a, dtype, copy=False, order=order)
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/h5py/_hl/dataset.py", line 474, in __iter__
+    yield self[i]
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "/scratch_net/biwidl201/himeva/anaconda2/envs/seg/lib/python3.6/site-packages/h5py/_hl/dataset.py", line 562, in __getitem__
+    arr = numpy.ndarray(mshape, new_dtype, order='C')
+MemoryError
+2020-01-22 15:18:27.897297: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-01-22 15:18:28.126404: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties: 
+name: TITAN Xp major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:83:00.0
+totalMemory: 11.91GiB freeMemory: 11.76GiB
+2020-01-22 15:18:28.126440: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2020-01-22 15:18:35.126179: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-01-22 15:18:35.128997: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0 
+2020-01-22 15:18:35.129015: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N 
+2020-01-22 15:18:35.129230: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11376 MB memory) -> physical GPU (device: 0, name: TITAN Xp, pci bus id: 0000:83:00.0, compute capability: 6.1)
+2020-01-22 15:18:50.288106: I tensorflow/stream_executor/dso_loader.cc:151] successfully opened CUDA library libcupti.so.9.0 locally

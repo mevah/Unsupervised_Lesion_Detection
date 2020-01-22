@@ -25,7 +25,7 @@ def path_make(model,database,app):
 def random_data(data, batchsize = 5):
     slice_number = random.sample(range(np.shape(data)[0]), batchsize)      
     s = np.sort(slice_number)
-    return data[0][s] 
+    return data[s,:] 
 
 
 # reconstruction
@@ -56,17 +56,17 @@ def data_load(process = 'Train', dataset = 'HCP', datapath = 'default'):
         h5f = h5py.File( datapath + 'BraTS2018train_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice, label 
+        return slice
     elif dataset == 'BraTS2018valid':
         h5f = h5py.File( datapath + 'BraTS2018valid_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice, label    
+        return slice
     elif dataset == 'BraTS2018test':
         h5f = h5py.File( datapath + 'BraTS2018test_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice, label 
+        return slice
     else: raise ValueError('Error in dataset, should be CamCANT2, BraTSLGG and BraTSHGG')
 
 def roc_score2(pmask, ratio):

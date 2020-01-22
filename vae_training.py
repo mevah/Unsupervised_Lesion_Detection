@@ -155,7 +155,7 @@ for step in range(start_step, start_step + training_step):
         
     batch = random_data(MRtrain, batchsize = batchsize)
 #[:batchsize,22:22 + imageshape[0],17: 17+ imageshape[1]]  
-    print('batch shape before going in the network:', batch.shape)
+ #   print('batch shape before going in the network:', batch.shape)
  #   batch = np.expand_dims(batch, axis = -1)
  #   print('shape after expand dims',batch.shape)
     
