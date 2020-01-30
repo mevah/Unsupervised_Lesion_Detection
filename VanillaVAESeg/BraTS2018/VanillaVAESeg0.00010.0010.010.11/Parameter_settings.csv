@@ -1,0 +1,11 @@
+name,value
+model,VanillaVAESeg
+mode,TrainModel
+sequence_number,1
+batchsize,16
+dim_z,1
+dim_x,57600
+start_step,0
+training_step,1600000
+training_rate,5e-05
+start_time(UTC),2020-01-27T16:36:31.932986

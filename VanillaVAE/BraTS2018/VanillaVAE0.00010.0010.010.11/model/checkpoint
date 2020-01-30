@@ -1,2 +1,6 @@
-model_checkpoint_path: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-0"
-all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-0"
+model_checkpoint_path: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-425000"
+all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-405000"
+all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-410000"
+all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-415000"
+all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-420000"
+all_model_checkpoint_paths: "/scratch_net/biwidl201/himeva/MasterThesis-Meva/Unsupervised_Detection_new/VanillaVAE/BraTS2018/VanillaVAE0.00010.0010.010.11/model/model.ckpt-425000"

@@ -35,6 +35,12 @@ def recon(recon_mean, recon_logstd, sess, x, test_image, savepath, step):
     np.save(savepath+'reconstr_mean'+ num2str(step) +'.npy',reconstr_mean)
     np.save(savepath+'reconstr_std'+ num2str(step) +'.npy',reconstr_std)
 
+def recon_seg(recon_mean, recon_logstd, sess, x, test_image, savepath, step):    
+    reconstr_mean, reconstr_logstd = sess.run([recon_mean, recon_logstd], feed_dict={x: test_image})
+    reconstr_std = np.exp(reconstr_logstd)    
+    np.save(savepath+'reconstr_mean'+ num2str(step) +'.npy',reconstr_mean)
+    np.save(savepath+'reconstr_std'+ num2str(step) +'.npy',reconstr_std)
+
 def data_load(process = 'Train', dataset = 'HCP', datapath = 'default'):    
     if datapath == 'default':
         raise ValueError('Please input the correct data path')
@@ -56,17 +62,17 @@ def data_load(process = 'Train', dataset = 'HCP', datapath = 'default'):
         h5f = h5py.File( datapath + 'BraTS2018train_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice
+        return slice, label
     elif dataset == 'BraTS2018valid':
         h5f = h5py.File( datapath + 'BraTS2018valid_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice
+        return slice, label
     elif dataset == 'BraTS2018test':
         h5f = h5py.File( datapath + 'BraTS2018test_data.hdf5', 'r')
         slice = h5f[process]
         label = h5f['Label']
-        return slice
+        return slice,label
     else: raise ValueError('Error in dataset, should be CamCANT2, BraTSLGG and BraTSHGG')
 
 def roc_score2(pmask, ratio):

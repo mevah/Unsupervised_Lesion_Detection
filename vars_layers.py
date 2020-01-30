@@ -53,6 +53,13 @@ def input_set(img_dim, height, width, name = 'x'):
         img_reshape= tf.reshape(img, [-1, height, width, 1]) # reshaped to feed to Convolutional layers
         tf.summary.histogram('input', img)
     return img, img_reshape
+
+def input_label_set(img_dim, height, width, name = 'mask'):
+    with tf.name_scope(name):
+        img = tf.placeholder(tf.float32, [None, img_dim], name='mask_input')     
+        img_reshape= tf.reshape(img, [-1, height, width, 1]) # reshaped to feed to Convolutional layers
+        tf.summary.histogram('mask_input', img)
+    return img, img_reshape
 	
 # define convolution
     
